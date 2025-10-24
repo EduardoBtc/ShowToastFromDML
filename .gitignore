@@ -1,0 +1,8 @@
+node_modules
+.sf/
+.sfdx/
+vscode/
+.vscode/
+.vscode/
+sfdx-project.json
+project-scratch-def.json

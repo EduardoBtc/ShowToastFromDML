@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Show Toast From DML</masterLabel>
+    <description>Monitors field changes via CDC and displays configurable toast notifications</description>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <supportedFormFactors>
+                <supportedFormFactor type="Small"/>
+                <supportedFormFactor type="Large"/>
+            </supportedFormFactors>
+
+            <!-- ========== 1. BASIC CONFIGURATION ========== -->
+            <property 
+                name="fieldMonitoringApiName"
+                type="String"
+                label="Monitored Field"
+                description="API name of the field to be monitored (e.g.: Status__c, ApprovalStatus__c)"
+                placeholder="E.g.: Status__c"
+                required="true"/>
+
+            <!-- ========== 2. NOTIFICATION CONTENT ========== -->
+            <property 
+                name="toastTitle"
+                type="String"
+                label="Toast Title"
+                description="Title with automatic merge fields support: {oldValue}, {newValue}, {recordId}, {objectName}"
+                default="Notification"
+                placeholder="E.g.: Status changed to {fieldValue}"/>
+
+            <property 
+                name="toastMessage"
+                type="String"
+                label="Toast Message"
+                description="Message with automatic merge fields processing when detected"
+                default="Field has been updated"
+                placeholder="E.g.: Changed from {oldValue} to {newValue}"/>
+
+            <!-- ========== 3. APPEARANCE ========== -->
+            <property 
+                name="toastVariant"
+                type="String"
+                label="Notification Type"
+                description="Defines the color and icon of the toast"
+                default="success"
+                datasource="success,error,warning,info"/>
+
+            <property 
+                name="toastMode"
+                type="String"
+                label="Display Mode"
+                description="Controls how the toast is closed by the user"
+                default="dismissable"
+                datasource="dismissable,pester,sticky"/>
+
+            <!-- ========== 4. BEHAVIOR ========== -->
+            <property 
+                name="forceRefreshView"
+                type="Boolean"
+                label="Force Page Refresh"
+                description="If checked, automatically updates the page after showing the toast"
+                default="false"/>
+
+            <property 
+                name="refreshDelayMs"
+                type="Integer"
+                label="Refresh Delay (ms)"
+                description="Wait time before updating the page (in milliseconds)"
+                default="1000"
+                min="0"
+                max="10000"/>
+
+            <property 
+                name="showOnlyOnce"
+                type="Boolean"
+                label="Show Only Once"
+                description="If checked, shows the toast only on the first detected change"
+                default="false"/>
+
+            <!-- ========== 5. HELP ========== -->
+            <property 
+                name="helpVariables"
+                type="String"
+                label="📋 Available Variables"
+                description="List of all dynamic variables that can be used in messages"
+                default="{oldValue} - Previous field value | {newValue} - Current value | {recordId} - Record ID | {objectName} - Object name"/>
+
+            <property 
+                name="helpExamples"
+                type="String"
+                label="📝 Usage Examples"
+                description="Practical examples of how to use dynamic variables"
+                default="Title: 'Status Updated' | Message: 'Field changed from {oldValue} to {newValue}' | Title: 'Approval Completed!' | Message: 'Record {recordId} was approved' | Title: '{objectName} Modified' | Message: 'New value: {newValue}'"/>
+
+            <property 
+                name="helpTip"
+                type="String"
+                label="💡 Usage Tip"
+                description="Important tip for using dynamic variables"
+                default="Copy and paste the variables into your messages. Enable 'Process Merge Fields' so variables are replaced with real values."/>
+
+            <!-- ========== 6. ADVANCED ========== -->
+            <property 
+                name="debugMode"
+                type="Boolean"
+                label="Debug Mode"
+                description="If checked, displays detailed logs in the browser console"
+                default="false"/>
+
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
