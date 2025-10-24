@@ -406,7 +406,7 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICE
 
 
 - **Documentação**: Consulte este README e comentários inline
-- **Meu Trailhead**: [Eduardo Martins](https://github.com/your-username/showToastFromDML/issues)
+- **Meu Trailhead**: [Eduardo Martins](https://www.salesforce.com/trailblazer/emartins35)
 ---
 
 <div align="center">
