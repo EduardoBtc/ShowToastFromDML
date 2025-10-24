@@ -6,35 +6,35 @@ import { refreshApex } from '@salesforce/apex';
 import { RefreshEvent } from 'lightning/refresh';
  
 export default class ShowToastFromDml extends LightningElement {
-    // Required properties
+    // Propriedades obrigatórias
     @api recordId;
     @api objectApiName;
     @api fieldMonitoringApiName;
     
-    // Toast title properties
-    @api toastTitle = 'Notification';
+    // Propriedades de título do toast
+    @api toastTitle = 'Notificação';
     
-    // Toast message properties
-    @api toastMessage = 'Field has been updated';
+    // Propriedades de mensagem do toast
+    @api toastMessage = 'O campo foi atualizado';
     
-    // Toast appearance properties
+    // Propriedades de aparência do toast
     @api toastVariant = 'info';
     @api toastMode = 'dismissable';
     
-    // View refresh properties
+    // Propriedades de refresh da view
     @api forceRefreshView = false;
     @api refreshDelayMs = 1000;
     
-    // Advanced properties
+    // Propriedades avançadas
     @api showOnlyOnce = false;
     @api debugMode = false;
     
-    // Help properties
+    // Propriedades de ajuda
     @api helpVariables = '';
     @api helpExamples = '';
     @api helpTip = '';
     
-    // Internal variables
+    // Variáveis internas
     lastSeenModified;
     oldValue;
     hasShownToast = false;
@@ -52,87 +52,87 @@ export default class ShowToastFromDml extends LightningElement {
         const { data, error } = value;
         
         if (error) {
-            this.logDebug('Error getting record for monitoring:', error);
+            this.logDebug('Erro ao obter registro para monitoramento:', error);
             return;
         }
         
-        // Check if wire recordId matches page recordId
+        //verificar se o recordId do wire corresponde ao recordId da página
         if (data && data.id && this.recordId && data.id !== this.recordId) {
             return;
         }
         
         if (data && data.fields && data.fields[this.fieldMonitoringApiName]) {
             const current = data.fields[this.fieldMonitoringApiName].value;
-            this.logDebug('Valid wire record for recordId:', this.recordId, 'Field:', this.fieldMonitoringApiName, 'Value:', current);
+            this.logDebug('Wire record válido para recordId:', this.recordId, 'Campo:', this.fieldMonitoringApiName, 'Valor:', current);
             
-            // First load - just store value
+            // Primeira carga - apenas armazenar valor
             if (this.lastSeenModified === undefined) {
                 this.lastSeenModified = current;
                 this.oldValue = current;
-                this.logDebug('Initial field value:', current);
+                this.logDebug('Valor inicial do campo:', current);
                 return;
             }
             
-            // Field changed - check if should show toast
+            // Campo mudou - verificar se deve exibir toast
             if (current !== this.lastSeenModified) {
-                this.logDebug('Field changed from', this.lastSeenModified, 'to', current);
+                this.logDebug('Campo alterado de', this.lastSeenModified, 'para', current);
                 
-                // Check if should show only once
+                // Verificar se deve exibir apenas uma vez
                 if (this.showOnlyOnce && this.hasShownToast) {
-                    this.logDebug('Toast already shown and showOnlyOnce is active');
+                    this.logDebug('Toast já foi exibido e showOnlyOnce está ativo');
                     return;
                 }
                 
-                // Store values for merge fields
+                // Armazenar valores para merge fields
                 this.oldValue = this.lastSeenModified;
                 this.lastSeenModified = current;
                 
-                // Process and show toast
+                // Processar e exibir toast
                 this.processAndShowToast(current);
                 
-                // Mark that toast was shown
+                // Marcar que toast foi exibido
                 this.hasShownToast = true;
             }
         }
     }
    
     /**
-     * Processes merge fields and shows the toast
+     * Processa campos de mesclagem e exibe o toast
      */
     processAndShowToast(fieldValue) {
         try {
-            // Process title (automatic if merge fields exist)
+            // Processar título (automático se houver campos de mesclagem)
             let processedTitle = this.hasMergeFields(this.toastTitle) 
                 ? this.processMergeFields(this.toastTitle, fieldValue)
                 : this.toastTitle;
             
-            // Process message (automatic if merge fields exist)
+            // Processar mensagem (automático se houver campos de mesclagem)
             let processedMessage = this.hasMergeFields(this.toastMessage)
                 ? this.processMergeFields(this.toastMessage, fieldValue)
                 : this.toastMessage;
             
-            this.logDebug('Showing toast:', {
+            this.logDebug('Exibindo toast:', {
                 title: processedTitle,
                 message: processedMessage,
                 variant: this.toastVariant,
                 mode: this.toastMode
             });
             
-            // Show toast
+            // Exibir toast
             this.showToast(processedTitle, processedMessage, this.toastVariant, this.toastMode);
             
-            // Refresh view if configured
+            // Atualizar a view se configurado
             if (this.forceRefreshView) {
                 this.scheduleRefresh();
             }
             
         } catch (error) {
-            this.logDebug('Error processing toast:', error);
+            this.logDebug('Erro ao processar toast:', error);
         }
     }
     
     /**
-     * Processes merge fields in strings
+     * Processa campos de mesclagem em strings
      */
     processMergeFields(template, fieldValue) {
         if (!template || typeof template !== 'string') {
@@ -148,29 +148,29 @@ export default class ShowToastFromDml extends LightningElement {
         
         let result = template;
         
-        // Replace all tokens
+        // Substituir todos os tokens
         Object.keys(mergeData).forEach(key => {
             const token = `{${key}}`;
             const value = mergeData[key];
             result = result.replace(new RegExp(token, 'g'), value);
         });
         
-        this.logDebug('Merge fields processed:', { template, result, mergeData });
+        this.logDebug('Campos de mesclagem processados:', { template, result, mergeData });
         return result;
     }
     
     /**
-     * Formats values for display
+     * Formata valores para exibição
      */
     formatValue(value) {
         if (value === null || value === undefined || value === '') {
-            return 'empty';
+            return 'vazio';
         }
         return String(value);
     }
     
     /**
-     * Detects if text contains known merge fields
+     * Detecta se o texto contém campos de mesclagem conhecidos
      */
     hasMergeFields(text) {
         if (!text || typeof text !== 'string') return false;
@@ -179,7 +179,7 @@ export default class ShowToastFromDml extends LightningElement {
     }
     
     /**
-     * Shows the toast with all configured properties
+     * Exibe o toast com todas as propriedades configuradas
      */
     showToast(title, message, variant, mode) {
         const event = new ShowToastEvent({ 
@@ -193,43 +193,43 @@ export default class ShowToastFromDml extends LightningElement {
     }
     
     /**
-     * Schedules view refresh with delay
+     * Agenda atualização da view com delay
      */
     scheduleRefresh() {
         if (this.refreshDelayMs > 0) {
-            this.logDebug(`Scheduling refresh in ${this.refreshDelayMs}ms`);
+            this.logDebug(`Agendando atualização em ${this.refreshDelayMs}ms`);
             setTimeout(() => {
-                this.logDebug('Executing view refresh');
+                this.logDebug('Executando atualização da view');
                 this.dispatchEvent(new RefreshEvent());
             }, this.refreshDelayMs);
         } else {
-            this.logDebug('Executing immediate view refresh');
+            this.logDebug('Executando atualização imediata da view');
             this.dispatchEvent(new RefreshEvent());
         }
     }
     
     /**
-     * Conditional debug log
+     * Log debug condicional
      */
     logDebug(...args) {
         if (this.debugMode) {
-            console.log('[ShowToastFromDml]', ...args);
+            console.log('[ShowToastFromTrigger]', ...args);
         }
     }
  
     connectedCallback() {
-        this.logDebug('Component connected for recordId:', this.recordId, 'Object:', this.objectApiName, 'Field:', this.fieldMonitoringApiName);
+        this.logDebug('Componente conectado para recordId:', this.recordId, 'Objeto:', this.objectApiName, 'Campo:', this.fieldMonitoringApiName);
         this.initializeCdcSubscription();
     }
  
     disconnectedCallback() {
-        this.logDebug('Component disconnected for recordId:', this.recordId, 'cleaning up subscription');
+        this.logDebug('Componente desconectado para recordId:', this.recordId, 'limpando assinatura');
         if (this.subscription) {
             try {
                 unsubscribe(this.subscription, () => {});
-                this.logDebug('CDC subscription cancelled successfully');
+                this.logDebug('Assinatura CDC cancelada com sucesso');
             } catch (e) {
-                this.logDebug('Error cancelling subscription:', e);
+                this.logDebug('Erro ao cancelar assinatura:', e);
             }
             this.subscription = null;
         }
@@ -249,55 +249,55 @@ export default class ShowToastFromDml extends LightningElement {
     initializeCdcSubscription() {
         const channel = this.cdcChannel;
         if (!channel || !this.recordId) {
-            this.logDebug('CDC not initialized - channel:', channel, 'recordId:', this.recordId);
+            this.logDebug('CDC não inicializado - canal:', channel, 'recordId:', this.recordId);
             return;
         }
 
-        this.logDebug('Initializing CDC subscription for channel:', channel, 'recordId:', this.recordId);
+        this.logDebug('Inicializando assinatura CDC para canal:', channel, 'recordId:', this.recordId);
 
         onError((error) => {
-            this.logDebug('empApi error:', error);
+            this.logDebug('Erro do empApi:', error);
         });
 
-        const replayId = -1; // only new events
+        const replayId = -1; // somente eventos novos
         subscribe(channel, replayId, (message) => this.handleCdcMessage(message))
             .then((response) => {
                 this.subscription = response;
-                this.logDebug('CDC subscription created successfully for recordId:', this.recordId);
+                this.logDebug('Assinatura CDC criada com sucesso para recordId:', this.recordId);
             })
             .catch((err) => {
-                this.logDebug('Failed to subscribe to CDC:', err);
+                this.logDebug('Falha ao assinar CDC:', err);
             });
     }
 
     handleCdcMessage(message) {
         try {
-            this.logDebug('CDC message received:', message);
+            this.logDebug('Mensagem CDC recebida:', message);
             
-            // Ensure this.recordId is defined
+            //garantir que this.recordId está definido
             if (!this.recordId) {
-                this.logDebug('recordId not defined, ignoring CDC event');
+                this.logDebug('recordId não definido, ignorando evento CDC');
                 return;
             }
             
             const recordIds = message?.data?.payload?.ChangeEventHeader?.recordIds || [];
-            this.logDebug('CDC event recordIds:', recordIds, 'Current page recordId:', this.recordId);
+            this.logDebug('RecordIds do evento CDC:', recordIds, 'RecordId atual da página:', this.recordId);
             
-            // Check if page recordId is in the list of affected recordIds
+            //verificar se o recordId da página está na lista de recordIds afetados
             if (Array.isArray(recordIds) && recordIds.includes(this.recordId)) {
-                this.logDebug('Change detected for current page recordId:', this.recordId);
+                this.logDebug('Mudança detectada para recordId da página atual:', this.recordId);
                 
                 if (this._wiredRecord) {
-                    this.logDebug('Updating wire adapter via refreshApex');
+                    this.logDebug('Atualizando adaptador wire via refreshApex');
                     refreshApex(this._wiredRecord);
                 } else {
-                    this.logDebug('Wire adapter not available for refresh');
+                    this.logDebug('Adaptador wire não disponível para atualização');
                 }
             } else {
-                this.logDebug('CDC event is not for current page recordId. Ignoring.');
+                this.logDebug('Evento CDC não é para o recordId da página atual. Ignorando.');
             }
         } catch (e) {
-            this.logDebug('Error processing CDC message:', e);
+            this.logDebug('Erro ao processar mensagem CDC:', e);
         }
     }
 }

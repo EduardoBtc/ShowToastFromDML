@@ -1,299 +1,299 @@
-# ShowToastFromTrigger - LWC Component
+# ShowToastFromTrigger - Componente LWC
 
 [![Salesforce](https://img.shields.io/badge/Salesforce-Lightning%20Web%20Component-00A1E0?style=flat&logo=salesforce)](https://developer.salesforce.com/docs/component-library/documentation/en/lwc)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-1.0-blue.svg)](CHANGELOG.md)
 
-> **🚀 An invisible Lightning Web Component that monitors field changes and displays toast notifications automatically using Change Data Capture (CDC)**
+> **🚀 Um componente Lightning Web Component invisível que monitora mudanças em campos e exibe notificações toast automaticamente usando Change Data Capture (CDC)**
 
-## 📋 Table of Contents
+## 📋 Índice
 
-- [Overview](#-overview)
-- [Technologies Used](#-technologies-used)
-- [Requirements](#-requirements)
-- [Installation](#-installation)
-- [Quick Setup](#-quick-setup)
-- [Configuration](#-configuration)
-- [Available Merge Fields](#-available-merge-fields)
-- [Common Use Cases](#-common-use-cases)
-- [Troubleshooting](#-troubleshooting)
-- [Known Limitations](#-known-limitations)
+- [Visão Geral](#-visão-geral)
+- [Tecnologias Utilizadas](#-tecnologias-utilizadas)
+- [Requisitos](#-requisitos)
+- [Instalação](#-instalação)
+- [Configuração Rápida](#-configuração-rápida)
+- [Configuração](#-configuração)
+- [Campos de Mesclagem Disponíveis](#-campos-de-mesclagem-disponíveis)
+- [Casos de Uso Comuns](#-casos-de-uso-comuns)
+- [Solução de Problemas](#-solução-de-problemas)
+- [Limitações Conhecidas](#-limitações-conhecidas)
 - [Performance](#-performance)
-- [Contributing](#-contributing)
-- [License](#-license)
+- [Contribuindo](#-contribuindo)
+- [Licença](#-licença)
 
-## 📋 Overview
+## 📋 Visão Geral
 
-The **ShowToastFromTrigger** is an invisible Lightning Web Component that monitors changes to specific record fields and automatically displays toast notifications when the field is updated, regardless of the change source (Apex, Flow, UI, DML).
+O **ShowToastFromTrigger** é um componente Lightning Web Component invisível que monitora mudanças em campos específicos de registros e exibe automaticamente notificações toast quando o campo é atualizado, independentemente da fonte da mudança (Apex, Flow, UI, DML).
 
-### ✨ Main Features
+### ✨ Principais Recursos
 
-- 🔄 **Real-Time Monitoring**: Uses Change Data Capture (CDC) to detect changes instantly
-- 🎨 **Fully Configurable**: Customize title, message, color, mode and behavior via App Builder
-- 🔗 **Dynamic Merge Fields**: Use tokens like `{newValue}`, `{oldValue}`, `{recordId}` in messages
-- 🔄 **Automatic Refresh**: Option to automatically refresh the page after displaying the toast
-- 🐛 **Debug Mode**: Detailed logs for troubleshooting
+- 🔄 **Monitoramento em Tempo Real**: Usa Change Data Capture (CDC) para detectar mudanças instantaneamente
+- 🎨 **Totalmente Configurável**: Personalize título, mensagem, cor, modo e comportamento via App Builder
+- 🔗 **Campos de Mesclagem Dinâmicos**: Use tokens como `{newValue}`, `{oldValue}`, `{recordId}` nas mensagens
+- 🔄 **Atualização Automática**: Opção para atualizar automaticamente a página após exibir o toast
+- 🐛 **Modo Debug**: Logs detalhados para solução de problemas
 
-## 🛠️ Technologies Used
+## 🛠️ Tecnologias Utilizadas
 
-- **Salesforce Lightning Web Components (LWC)** - Modern JavaScript framework for Salesforce
-- **Change Data Capture (CDC)** - Real-time data change monitoring
-- **Lightning App Builder** - Visual page configuration
-- **Salesforce Platform Events** - Event-driven architecture
-- **JavaScript ES6+** - Modern JavaScript features
-- **CSS3** - Styling and animations
-- **HTML5** - Semantic markup
+- **Salesforce Lightning Web Components (LWC)** - Framework JavaScript moderno para Salesforce
+- **Change Data Capture (CDC)** - Monitoramento de mudanças de dados em tempo real
+- **Lightning App Builder** - Configuração visual de páginas
+- **Salesforce Platform Events** - Arquitetura orientada a eventos
+- **JavaScript ES6+** - Recursos modernos de JavaScript
+- **CSS3** - Estilização e animações
+- **HTML5** - Marcação semântica
 
-## 📋 Requirements
+## 📋 Requisitos
 
-### Prerequisites
+### Pré-requisitos
 
-- **Salesforce Org** with appropriate permissions
-- **Change Data Capture** enabled (requires licensing)
-- **Lightning App Builder** access
-- **System Administrator** or **Customize Application** permission
+- **Org Salesforce** com permissões apropriadas
+- **Change Data Capture** habilitado (requer licenciamento)
+- **Acesso ao Lightning App Builder**
+- **Administrador do Sistema** ou permissão **Customize Application**
 
-### Salesforce Editions
+### Edições do Salesforce
 
-| Edition | CDC Support | Object Limit |
-|---------|-------------|--------------|
-| Developer Edition | ✅ | 5 objects |
-| Professional | ❌ | Not available |
-| Enterprise | ✅ | 10 objects |
-| Unlimited | ✅ | 20 objects |
+| Edição | Suporte CDC | Limite de Objetos |
+|---------|-------------|------------------|
+| Developer Edition | ✅ | 5 objetos |
+| Professional | ❌ | Não disponível |
+| Enterprise | ✅ | 10 objetos |
+| Unlimited | ✅ | 20 objetos |
 
-## 🚀 Installation
+## 🚀 Instalação
 
-### Deploy via SF CLI (Recommended)
+### Deploy via SF CLI (Recomendado)
 
-1. **Clone the repository**
+1. **Clone o repositório**
    ```bash
    git clone https://github.com/EduardoBtc/showToastFromDML.git
    cd showToastFromDML
    ```
 
-2. **Authenticate with Salesforce**
+2. **Autentique com o Salesforce**
    ```bash
    sf org login web --set-default --alias myorg
    ```
 
-3. **Deploy to your org**
+3. **Faça deploy para sua org**
    ```bash
    sf project deploy start --source-dir force-app/main/default/lwc/showToastFromDML
    ```
 
 
-## 🚀 Quick Setup
+## 🚀 Configuração Rápida
 
-### Step 1: Enable Change Data Capture
+### Passo 1: Habilitar Change Data Capture
 
-1. Go to **Setup** → **Change Data Capture**  
-2. Select the object you want to monitor  
-3. Click **Enable** to activate CDC
+1. Vá para **Configuração** → **Change Data Capture**  
+2. Selecione o objeto que deseja monitorar  
+3. Clique em **Habilitar** para ativar o CDC
 
-> **⚠️ Important**: CDC requires licensing and may be limited to 5 objects per org (Developer Edition)
+> **⚠️ Importante**: CDC requer licenciamento e pode ser limitado a 5 objetos por org (Developer Edition)
 
-### Step 2: Add Component to the Record Page
+### Passo 2: Adicionar Componente à Página de Registro
 
-1. Open **Lightning App Builder**  
-2. Edit the desired Record Page  
-3. Drag the **Show Toast From DML** component into any region  
-4. Configure the properties as needed
+1. Abra o **Lightning App Builder**  
+2. Edite a Página de Registro desejada  
+3. Arraste o componente **Show Toast From DML** para qualquer região  
+4. Configure as propriedades conforme necessário
 
-### Step 3: Configure Properties
+### Passo 3: Configurar Propriedades
 
-The component offers a comprehensive set of configuration options organized by functionality:
+O componente oferece um conjunto abrangente de opções de configuração organizadas por funcionalidade:
 
-#### 1️⃣ **BASIC CONFIG** (Required)
+#### 1️⃣ **CONFIGURAÇÃO BÁSICA** (Obrigatório)
 
-| Property | Description | Example |
-|----------|-------------|---------|
-| **Monitored Field** | API name of the field to monitor | `Status__c`, `ApprovalStatus__c` |
+| Propriedade | Descrição | Exemplo |
+|-------------|-----------|---------|
+| **Campo Monitorado** | Nome da API do campo a ser monitorado | `Status__c`, `ApprovalStatus__c` |
 
-#### 2️⃣ **NOTIFICATION CONTENT** (Essential)
+#### 2️⃣ **CONTEÚDO DA NOTIFICAÇÃO** (Essencial)
 
-| Property | Type | Description | Default |
-|----------|------|-------------|---------|
-| **Toast Title** | String | Title with automatic merge fields processing | "Notification" |
-| **Toast Message** | String | Message with automatic merge fields processing | "Field was updated" |
+| Propriedade | Tipo | Descrição | Padrão |
+|-------------|------|-----------|--------|
+| **Título do Toast** | String | Título com processamento automático de campos de mesclagem | "Notificação" |
+| **Mensagem do Toast** | String | Mensagem com processamento automático de campos de mesclagem | "Campo foi atualizado" |
 
-> **✨ Automatic Processing**: The component automatically detects tokens like `{newValue}`, `{oldValue}`, `{recordId}`, `{objectName}` and replaces them with real values.
+> **✨ Processamento Automático**: O componente detecta automaticamente tokens como `{newValue}`, `{oldValue}`, `{recordId}`, `{objectName}` e os substitui por valores reais.
 
-#### 3️⃣ **APPEARANCE** (Visual)
+#### 3️⃣ **APARÊNCIA** (Visual)
 
-| Property | Type | Options | Description | Default |
-|----------|------|---------|-------------|---------|
-| **Notification Type** | Picklist | success/error/warning/info | Toast color and icon | "info" |
-| **Display Mode** | Picklist | dismissable/pester/sticky | How the toast is closed | "dismissable" |
+| Propriedade | Tipo | Opções | Descrição | Padrão |
+|-------------|------|--------|-----------|--------|
+| **Tipo de Notificação** | Picklist | success/error/warning/info | Cor e ícone do toast | "info" |
+| **Modo de Exibição** | Picklist | dismissable/pester/sticky | Como o toast é fechado | "dismissable" |
 
-#### 4️⃣ **BEHAVIOR** (Functional)
+#### 4️⃣ **COMPORTAMENTO** (Funcional)
 
-| Property | Type | Description | Default |
-|----------|------|-------------|---------|
-| **Force Page Refresh** | Boolean | If checked, refreshes the page after toast | false |
-| **Refresh Delay (ms)** | Integer | Wait time before refresh | 1000 |
-| **Show Only Once** | Boolean | Shows the toast only on the first change | false |
+| Propriedade | Tipo | Descrição | Padrão |
+|-------------|------|-----------|--------|
+| **Forçar Atualização da Página** | Boolean | Se marcado, atualiza a página após o toast | false |
+| **Delay da Atualização (ms)** | Integer | Tempo de espera antes da atualização | 1000 |
+| **Exibir Apenas Uma Vez** | Boolean | Mostra o toast apenas na primeira mudança | false |
 
-#### 5️⃣ **HELP** (Support)
+#### 5️⃣ **AJUDA** (Suporte)
 
-| Property | Description |
-|----------|-------------|
-| **📋 Available Variables** | List of all dynamic variables |
-| **📝 Usage Examples** | Practical examples of how to use the variables |
-| **💡 Usage Tip** | Important tip for using the variables |
+| Propriedade | Descrição |
+|-------------|-----------|
+| **📋 Variáveis Disponíveis** | Lista de todas as variáveis dinâmicas |
+| **📝 Exemplos de Uso** | Exemplos práticos de como usar as variáveis |
+| **💡 Dica de Uso** | Dica importante para usar as variáveis |
 
-#### 6️⃣ **ADVANCED** (Technical)
+#### 6️⃣ **AVANÇADO** (Técnico)
 
-| Property | Type | Description | Default |
-|----------|------|-------------|---------|
-| **Debug Mode** | Boolean | Shows detailed logs in the console | false |
+| Propriedade | Tipo | Descrição | Padrão |
+|-------------|------|-----------|--------|
+| **Modo Debug** | Boolean | Mostra logs detalhados no console | false |
 
-## 🔗 Available Merge Fields
+## 🔗 Campos de Mesclagem Disponíveis
 
-Use these tokens in messages for dynamic values:
+Use estes tokens nas mensagens para valores dinâmicos:
 
-| Token | Description | Example |
-|-------|-------------|---------|
-| `{newValue}` | Current field value | "Approved" |
-| `{oldValue}` | Previous field value | "Pending" |
-| `{recordId}` | Record ID | "001XX000004DHPY" |
-| `{objectName}` | Object name | "Account" |
+| Token | Descrição | Exemplo |
+|-------|-----------|---------|
+| `{newValue}` | Valor atual do campo | "Aprovado" |
+| `{oldValue}` | Valor anterior do campo | "Pendente" |
+| `{recordId}` | ID do registro | "001XX000004DHPY" |
+| `{objectName}` | Nome do objeto | "Account" |
 
-### 📋 Built-in Help in the App Builder
+### 📋 Ajuda Integrada no App Builder
 
-The component includes a **built-in help property** that shows all available dynamic variables directly in the App Builder:
+O componente inclui uma **propriedade de ajuda integrada** que mostra todas as variáveis dinâmicas disponíveis diretamente no App Builder:
 
 ```
-📋 AVAILABLE DYNAMIC VARIABLES:
+📋 VARIÁVEIS DINÂMICAS DISPONÍVEIS:
 
-🔹 {newValue} - Current field value
-🔹 {oldValue} - Previous field value  
-🔹 {recordId} - Record ID
-🔹 {objectName} - Object name
+🔹 {newValue} - Valor atual do campo
+🔹 {oldValue} - Valor anterior do campo  
+🔹 {recordId} - ID do registro
+🔹 {objectName} - Nome do objeto
 
-📝 USAGE EXAMPLES:
+📝 EXEMPLOS DE USO:
 
-Title: "Status Updated"
-Message: "Field changed from {oldValue} to {newValue}"
+Título: "Status Atualizado"
+Mensagem: "Campo mudou de {oldValue} para {newValue}"
 
-Title: "Approval Completed!"
-Message: "Record {recordId} was approved"
+Título: "Aprovação Concluída!"
+Mensagem: "Registro {recordId} foi aprovado"
 
-Title: "{objectName} Modified"
-Message: "New value: {newValue}"
+Título: "{objectName} Modificado"
+Mensagem: "Novo valor: {newValue}"
 
-💡 TIP: Processing is automatic! Just use the tokens in messages.
+💡 DICA: O processamento é automático! Apenas use os tokens nas mensagens.
 ```
 
-**How to use:**
-1. In App Builder, scroll to the "📋 Available Dynamic Variables" section
-2. **Copy** the variables you want to use
-3. **Paste** them in the title or message of the toast
-4. **Done!** Processing is automatic - no need to activate anything
+**Como usar:**
+1. No App Builder, role até a seção "📋 Variáveis Dinâmicas Disponíveis"
+2. **Copie** as variáveis que deseja usar
+3. **Cole** elas no título ou mensagem do toast
+4. **Pronto!** O processamento é automático - não precisa ativar nada
 
-### 🎨 Visual Interface in the App Builder
+### 🎨 Interface Visual no App Builder
 
 ```
 ┌─────────────────────────────────────────────┐
 │ SHOW TOAST FROM TRIGGER                     │
 ├─────────────────────────────────────────────┤
 │                                             │
-│ Monitored Field *                            │
+│ Campo Monitorado *                          │
 │ [Status__c                            ]     │
 │                                             │
-│ Toast Title                                  │
-│ [Status Updated                       ]     │
+│ Título do Toast                             │
+│ [Status Atualizado                   ]     │
 │                                             │
-│ Toast Message                               │
-│ [Field changed from {oldValue} to {newValue}] │
+│ Mensagem do Toast                           │
+│ [Campo mudou de {oldValue} para {newValue}] │
 │                                             │
-│ ✨ Automatic Processing Active              │
+│ ✨ Processamento Automático Ativo           │
 │                                             │
-│ ── 📋 HELP WITH VARIABLES ──               │
+│ ── 📋 AJUDA COM VARIÁVEIS ──               │
 │                                             │
-│ 📋 Available Variables                      │
-│ [{newValue} - Current value | {oldValue}...] │
+│ 📋 Variáveis Disponíveis                    │
+│ [{newValue} - Valor atual | {oldValue}...]  │
 │                                             │
-│ 📝 Usage Examples                           │
-│ [Title: 'Status Updated' | Message...]      │
+│ 📝 Exemplos de Uso                          │
+│ [Título: 'Status Atualizado' | Mensagem...] │
 │                                             │
-│ 💡 Usage Tip                               │
-│ [Automatic processing - just use...]       │
+│ 💡 Dica de Uso                              │
+│ [Processamento automático - apenas use...]  │
 │                                             │
-│ ── Advanced Options ──                       │
-│ ☐ Show Only Once                            │
-│ ☐ Debug Mode                                │
+│ ── Opções Avançadas ──                      │
+│ ☐ Exibir Apenas Uma Vez                     │
+│ ☐ Modo Debug                                │
 │                                             │
 └─────────────────────────────────────────────┘
 ```
 
-### 📝 Merge Field Examples
+### 📝 Exemplos de Campos de Mesclagem
 
 ```
-Title: "Status Updated"
-Message: "Field changed from {oldValue} to {newValue}"
+Título: "Status Atualizado"
+Mensagem: "Campo mudou de {oldValue} para {newValue}"
 
-Title: "Approval Completed!"
-Message: "The record {recordId} was approved successfully."
+Título: "Aprovação Concluída!"
+Mensagem: "O registro {recordId} foi aprovado com sucesso."
 
-Title: "{objectName} Modified"
-Message: "New value: {newValue}"
+Título: "{objectName} Modificado"
+Mensagem: "Novo valor: {newValue}"
 ```
 
-## 🎯 Common Use Cases
+## 🎯 Casos de Uso Comuns
 
-### 1. Approval Notification
-
-```
-Monitored Field: ApprovalStatus__c
-Title: Approval Completed!
-Message: Status changed to {newValue}
-Notification Type: success
-Display Mode: pester
-☑ Force Page Refresh: true
-Refresh Delay: 2000
-```
-
-**Result**: Green toast "Approval Completed! Status changed to Approved", closes after 3s, then refreshes the page
-
-### 2. Critical Error Alert
+### 1. Notificação de Aprovação
 
 ```
-Monitored Field: ValidationError__c
-Title: Validation Error
-Message: {newValue}
-Notification Type: error
-Display Mode: sticky
-☐ Force Page Refresh: false
+Campo Monitorado: ApprovalStatus__c
+Título: Aprovação Concluída!
+Mensagem: Status mudou para {newValue}
+Tipo de Notificação: success
+Modo de Exibição: pester
+☑ Forçar Atualização da Página: true
+Delay da Atualização: 2000
 ```
 
-**Result**: Red toast with the error message, stays on screen until the user closes it
+**Resultado**: Toast verde "Aprovação Concluída! Status mudou para Aprovado", fecha após 3s, depois atualiza a página
 
-### 3. Status Info with History
+### 2. Alerta de Erro Crítico
 
 ```
-Monitored Field: Status
-Title: {objectName} Updated
-Message: Status changed from {oldValue} to {newValue}
-Notification Type: info
-Display Mode: dismissable
-☐ Force Page Refresh: false
+Campo Monitorado: ValidationError__c
+Título: Erro de Validação
+Mensagem: {newValue}
+Tipo de Notificação: error
+Modo de Exibição: sticky
+☐ Forçar Atualização da Página: false
 ```
 
-**Result**: Gray toast "Account Updated: Status changed from Open to Closed"
+**Resultado**: Toast vermelho com a mensagem de erro, permanece na tela até o usuário fechar
 
-## 📖 Complete Example
+### 3. Informação de Status com Histórico
 
-Here's a complete example of setting up the component for an approval process:
+```
+Campo Monitorado: Status
+Título: {objectName} Atualizado
+Mensagem: Status mudou de {oldValue} para {newValue}
+Tipo de Notificação: info
+Modo de Exibição: dismissable
+☐ Forçar Atualização da Página: false
+```
 
-### Scenario: Opportunity Approval Workflow
+**Resultado**: Toast cinza "Account Atualizado: Status mudou de Aberto para Fechado"
+
+## 📖 Exemplo Completo
+
+Aqui está um exemplo completo de configuração do componente para um processo de aprovação:
+
+### Cenário: Fluxo de Aprovação de Oportunidade
 
 ```javascript
-// Component Configuration
+// Configuração do Componente
 {
   "monitoredField": "ApprovalStatus__c",
-  "toastTitle": "Approval Status Updated",
-  "toastMessage": "Opportunity {recordId} status changed from {oldValue} to {newValue}",
+  "toastTitle": "Status de Aprovação Atualizado",
+  "toastMessage": "Oportunidade {recordId} status mudou de {oldValue} para {newValue}",
   "notificationType": "success",
   "displayMode": "pester",
   "forcePageRefresh": true,
@@ -303,116 +303,116 @@ Here's a complete example of setting up the component for an approval process:
 }
 ```
 
-### Expected Behavior
+### Comportamento Esperado
 
-1. **User updates** `ApprovalStatus__c` from "Pending" to "Approved"
-2. **CDC detects** the change within 1-2 seconds
-3. **Toast appears** with green success styling
-4. **Message displays**: "Opportunity 006XX000004DHPY status changed from Pending to Approved"
-5. **Page refreshes** after 2 seconds to show updated data
+1. **Usuário atualiza** `ApprovalStatus__c` de "Pendente" para "Aprovado"
+2. **CDC detecta** a mudança em 1-2 segundos
+3. **Toast aparece** com estilo de sucesso verde
+4. **Mensagem exibe**: "Oportunidade 006XX000004DHPY status mudou de Pendente para Aprovado"
+5. **Página atualiza** após 2 segundos para mostrar dados atualizados
 
-## 🔧 Troubleshooting
+## 🔧 Solução de Problemas
 
-### ❌ Toast not appearing
+### ❌ Toast não aparece
 
-**Possible causes:**
-1. **CDC not enabled**: Verify Change Data Capture is active for the object  
-2. **Wrong field**: Confirm the field API name is correct  
-3. **Permissions**: User needs access to the monitored field  
-4. **Debug Mode**: Enable to see detailed logs in the console
+**Possíveis causas:**
+1. **CDC não habilitado**: Verifique se o Change Data Capture está ativo para o objeto  
+2. **Campo errado**: Confirme se o nome da API do campo está correto  
+3. **Permissões**: Usuário precisa ter acesso ao campo monitorado  
+4. **Modo Debug**: Habilite para ver logs detalhados no console
 
-**Solution:**
+**Solução:**
 ```javascript
-// Enable debug mode to see logs
+// Habilite o modo debug para ver logs
 debugMode: true
 ```
 
-### ⏱️ Detection latency
+### ⏱️ Latência de detecção
 
-**Cause**: CDC has a natural latency of ~1-2 seconds
+**Causa**: CDC tem uma latência natural de ~1-2 segundos
 
-**Solution**: This is normal—it's a platform limitation. For critical cases, consider Platform Events.
+**Solução**: Isso é normal—é uma limitação da plataforma. Para casos críticos, considere Platform Events.
 
-### 🔄 Refresh not working
+### 🔄 Atualização não funciona
 
-**Possible causes:**
-1. **Delay too low**: Increase the refresh delay  
-2. **Browser**: Some browsers may block automatic refresh
+**Possíveis causas:**
+1. **Delay muito baixo**: Aumente o delay da atualização  
+2. **Navegador**: Alguns navegadores podem bloquear atualização automática
 
-**Solution:**
+**Solução:**
 ```javascript
-// Increase the delay if needed
+// Aumente o delay se necessário
 refreshDelayMs: 2000
 ```
 
-### 📊 Multiple instances
+### 📊 Múltiplas instâncias
 
-**Problem**: Multiple toasts appear for the same field
+**Problema**: Múltiplos toasts aparecem para o mesmo campo
 
-**Solution**: Use only one instance of the component per page, or configure `showOnlyOnce: true`
+**Solução**: Use apenas uma instância do componente por página, ou configure `showOnlyOnce: true`
 
-## 🚨 Known Limitations
+## 🚨 Limitações Conhecidas
 
-| Limitation | Description | Workaround |
-|-----------|-------------|------------|
-| **CDC Latency** | ~1-2 seconds delay | Platform limitation |
-| **CDC Limit** | 5 objects per org (Dev Edition) | Upgrade license |
+| Limitação | Descrição | Solução Alternativa |
+|-----------|-----------|-------------------|
+| **Latência CDC** | Delay de ~1-2 segundos | Limitação da plataforma |
+| **Limite CDC** | 5 objetos por org (Dev Edition) | Upgrade de licença |
 
-## 🔍 Debug Mode
+## 🔍 Modo Debug
 
-Enable debug mode for advanced troubleshooting:
+Habilite o modo debug para solução de problemas avançada:
 
 ```javascript
-// In App Builder, check:
-Debug Mode: ☑
+// No App Builder, marque:
+Modo Debug: ☑
 ```
 
-**Available logs:**
-- Component initialization  
-- Initial field values  
-- Change detection  
-- Merge fields processing  
-- Toast display  
-- View refresh  
-- Errors and exceptions
+**Logs disponíveis:**
+- Inicialização do componente  
+- Valores iniciais dos campos  
+- Detecção de mudanças  
+- Processamento de campos de mesclagem  
+- Exibição do toast  
+- Atualização da view  
+- Erros e exceções
 
 ## 📈 Performance
 
-### ✅ Implemented Optimizations
+### ✅ Otimizações Implementadas
 
-- **CDC instead of polling**: Maximum efficiency  
-- **RefreshApex**: Updates only necessary data  
-- **Conditional logs**: Debug only when enabled  
-- **Automatic cleanup**: Removes subscriptions on disconnect
+- **CDC ao invés de polling**: Máxima eficiência  
+- **RefreshApex**: Atualiza apenas dados necessários  
+- **Logs condicionais**: Debug apenas quando habilitado  
+- **Limpeza automática**: Remove subscriptions ao desconectar
 
-### 📊 Resource Consumption
+### 📊 Consumo de Recursos
 
-- **CPU**: Minimal (listening to events only)  
-- **Memory**: Low (no active polling)  
-- **Network**: CDC uses an efficient WebSocket connection   
+- **CPU**: Mínimo (apenas escutando eventos)  
+- **Memória**: Baixa (sem polling ativo)  
+- **Rede**: CDC usa uma conexão WebSocket eficiente   
 
-## 📄 License
+## 📄 Licença
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
-### What this means:
+### O que isso significa:
 
-- ✅ **Commercial use** - Use in commercial projects
-- ✅ **Modification** - Modify the code as needed
-- ✅ **Distribution** - Share and distribute
-- ✅ **Private use** - Use in private projects
-- ❌ **Liability** - No warranty provided
-- ❌ **Warranty** - No warranty provided
+- ✅ **Uso comercial** - Use em projetos comerciais
+- ✅ **Modificação** - Modifique o código conforme necessário
+- ✅ **Distribuição** - Compartilhe e distribua
+- ✅ **Uso privado** - Use em projetos privados
+- ❌ **Responsabilidade** - Nenhuma garantia fornecida
+- ❌ **Garantia** - Nenhuma garantia fornecida
 
 
-- **Documentation**: Check this README and inline comments
-- **My Trailhead**: [Eduardo Martins](https://github.com/your-username/showToastFromDML/issues)
+- **Documentação**: Consulte este README e comentários inline
+- **Meu Trailhead**: [Eduardo Martins](https://github.com/your-username/showToastFromDML/issues)
 ---
 
 <div align="center">
 
-**⭐ If this component helped you, please give it a star! ⭐**
+**⭐ Se este componente te ajudou, por favor dê uma estrela! ⭐**
 
-Made with ❤️ for the Salesforce community
+Feito com ❤️ para a comunidade Salesforce
 
 </div>

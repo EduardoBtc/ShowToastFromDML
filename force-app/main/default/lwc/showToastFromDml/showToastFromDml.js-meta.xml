@@ -3,7 +3,7 @@
     <apiVersion>64.0</apiVersion>
     <isExposed>true</isExposed>
     <masterLabel>Show Toast From DML</masterLabel>
-    <description>Monitors field changes via CDC and displays configurable toast notifications</description>
+    <description>Monitora alterações em campos via CDC e exibe notificações toast configuráveis</description>
     <targets>
         <target>lightning__RecordPage</target>
     </targets>
@@ -14,62 +14,62 @@
                 <supportedFormFactor type="Large"/>
             </supportedFormFactors>
 
-            <!-- ========== 1. BASIC CONFIGURATION ========== -->
+            <!-- ========== 1. CONFIGURAÇÃO BÁSICA ========== -->
             <property 
                 name="fieldMonitoringApiName"
                 type="String"
-                label="Monitored Field"
-                description="API name of the field to be monitored (e.g.: Status__c, ApprovalStatus__c)"
-                placeholder="E.g.: Status__c"
+                label="Campo Monitorado"
+                description="Nome da API do campo a ser monitorado (ex: Status__c, ApprovalStatus__c)"
+                placeholder="Ex: Status__c"
                 required="true"/>
 
-            <!-- ========== 2. NOTIFICATION CONTENT ========== -->
+            <!-- ========== 2. CONTEÚDO DA NOTIFICAÇÃO ========== -->
             <property 
                 name="toastTitle"
                 type="String"
-                label="Toast Title"
-                description="Title with automatic merge fields support: {oldValue}, {newValue}, {recordId}, {objectName}"
-                default="Notification"
-                placeholder="E.g.: Status changed to {fieldValue}"/>
+                label="Título do Toast"
+                description="Título com suporte automático a merge fields: {oldValue}, {newValue}, {recordId}, {objectName}"
+                default="Notificação"
+                placeholder="Ex: Status mudou para {fieldValue}"/>
 
             <property 
                 name="toastMessage"
                 type="String"
-                label="Toast Message"
-                description="Message with automatic merge fields processing when detected"
-                default="Field has been updated"
-                placeholder="E.g.: Changed from {oldValue} to {newValue}"/>
+                label="Mensagem do Toast"
+                description="Mensagem com processamento automático de merge fields quando detectados"
+                default="O campo foi atualizado"
+                placeholder="Ex: Mudou de {oldValue} para {newValue}"/>
 
-            <!-- ========== 3. APPEARANCE ========== -->
+            <!-- ========== 3. APARÊNCIA ========== -->
             <property 
                 name="toastVariant"
                 type="String"
-                label="Notification Type"
-                description="Defines the color and icon of the toast"
+                label="Tipo de Notificação"
+                description="Define a cor e o ícone do toast"
                 default="success"
                 datasource="success,error,warning,info"/>
 
             <property 
                 name="toastMode"
                 type="String"
-                label="Display Mode"
-                description="Controls how the toast is closed by the user"
+                label="Modo de Exibição"
+                description="Controla como o toast é fechado pelo usuário"
                 default="dismissable"
                 datasource="dismissable,pester,sticky"/>
 
-            <!-- ========== 4. BEHAVIOR ========== -->
+            <!-- ========== 4. COMPORTAMENTO ========== -->
             <property 
                 name="forceRefreshView"
                 type="Boolean"
-                label="Force Page Refresh"
-                description="If checked, automatically updates the page after showing the toast"
+                label="Forçar Refresh da Página"
+                description="Se marcado, atualiza a página automaticamente após exibir o toast"
                 default="false"/>
 
             <property 
                 name="refreshDelayMs"
                 type="Integer"
-                label="Refresh Delay (ms)"
-                description="Wait time before updating the page (in milliseconds)"
+                label="Delay do Refresh (ms)"
+                description="Tempo de espera antes de atualizar a página (em milissegundos)"
                 default="1000"
                 min="0"
                 max="10000"/>
@@ -77,38 +77,38 @@
             <property 
                 name="showOnlyOnce"
                 type="Boolean"
-                label="Show Only Once"
-                description="If checked, shows the toast only on the first detected change"
+                label="Exibir Apenas Uma Vez"
+                description="Se marcado, mostra o toast apenas na primeira mudança detectada"
                 default="false"/>
 
-            <!-- ========== 5. HELP ========== -->
+            <!-- ========== 5. AJUDA ========== -->
             <property 
                 name="helpVariables"
                 type="String"
-                label="📋 Available Variables"
-                description="List of all dynamic variables that can be used in messages"
-                default="{oldValue} - Previous field value | {newValue} - Current value | {recordId} - Record ID | {objectName} - Object name"/>
+                label="📋 Variáveis Disponíveis"
+                description="Lista de todas as variáveis dinâmicas que podem ser usadas nas mensagens"
+                default="{oldValue} - Valor anterior do campo | {newValue} - Valor atual | {recordId} - ID do registro | {objectName} - Nome do objeto"/>
 
             <property 
                 name="helpExamples"
                 type="String"
-                label="📝 Usage Examples"
-                description="Practical examples of how to use dynamic variables"
-                default="Title: 'Status Updated' | Message: 'Field changed from {oldValue} to {newValue}' | Title: 'Approval Completed!' | Message: 'Record {recordId} was approved' | Title: '{objectName} Modified' | Message: 'New value: {newValue}'"/>
+                label="📝 Exemplos de Uso"
+                description="Exemplos práticos de como usar as variáveis dinâmicas"
+                default="Título: 'Status Atualizado' | Mensagem: 'Campo mudou de {oldValue} para {newValue}' | Título: 'Aprovação Concluída!' | Mensagem: 'Registro {recordId} foi aprovado' | Título: '{objectName} Modificado' | Mensagem: 'Novo valor: {newValue}'"/>
 
             <property 
                 name="helpTip"
                 type="String"
-                label="💡 Usage Tip"
-                description="Important tip for using dynamic variables"
-                default="Copy and paste the variables into your messages. Enable 'Process Merge Fields' so variables are replaced with real values."/>
+                label="💡 Dica de Uso"
+                description="Dica importante para usar as variáveis dinâmicas"
+                default="Copie e cole as variáveis nas suas mensagens. Ative 'Processar Merge Fields' para que as variáveis sejam substituídas pelos valores reais."/>
 
-            <!-- ========== 6. ADVANCED ========== -->
+            <!-- ========== 6. AVANÇADO ========== -->
             <property 
                 name="debugMode"
                 type="Boolean"
-                label="Debug Mode"
-                description="If checked, displays detailed logs in the browser console"
+                label="Modo Debug"
+                description="Se marcado, exibe logs detalhados no console do navegador"
                 default="false"/>
 
         </targetConfig>
